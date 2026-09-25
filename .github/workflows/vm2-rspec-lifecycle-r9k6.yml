@@ -13,10 +13,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install released RSpec integration
+        shell: bash
         run: |
           ruby -v
-          gem install rspec -v 3.13.2 --no-document
-          gem install rspec-mergify -v 0.3.0 --no-document
+          echo "GEM_HOME=$RUNNER_TEMP/gems" >> "$GITHUB_ENV"
+          echo "GEM_PATH=$RUNNER_TEMP/gems" >> "$GITHUB_ENV"
+          echo "$RUNNER_TEMP/gems/bin" >> "$GITHUB_PATH"
+          GEM_HOME="$RUNNER_TEMP/gems" GEM_PATH="$RUNNER_TEMP/gems" gem install rspec -v 3.13.2 --no-document
+          GEM_HOME="$RUNNER_TEMP/gems" GEM_PATH="$RUNNER_TEMP/gems" gem install rspec-mergify -v 0.3.0 --no-document
       - name: Plain RSpec control must fail cleanup
         shell: bash
         run: |
