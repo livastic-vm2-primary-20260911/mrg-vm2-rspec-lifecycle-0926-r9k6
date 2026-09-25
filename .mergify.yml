@@ -1,0 +1,9 @@
+pull_request_rules:
+  - name: VM2 RSpec lifecycle protected merge R9K6
+    conditions:
+      - title = VM2_RSPEC_QUARANTINE_LIFECYCLE_R9K6
+      - base = main
+      - check-success = VM2 RSpec lifecycle required
+    actions:
+      merge:
+        method: merge
