@@ -1,0 +1,34 @@
+name: VM2 RSpec lifecycle required
+on:
+  pull_request:
+    branches:
+      - main
+permissions:
+  contents: read
+jobs:
+  required:
+    if: github.event.pull_request.title == 'VM2_RSPEC_QUARANTINE_LIFECYCLE_R9K6'
+    name: VM2 RSpec lifecycle required
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install released RSpec integration
+        run: |
+          ruby -v
+          gem install rspec -v 3.13.2 --no-document
+          gem install rspec-mergify -v 0.3.0 --no-document
+      - name: Plain RSpec control must fail cleanup
+        shell: bash
+        run: |
+          set +e
+          rspec spec/vm2_rspec_lifecycle_spec.rb --format documentation
+          rc=$?
+          set -e
+          echo "VM2_RAW_RSPEC_EXIT=$rc"
+          test "$rc" -ne 0
+      - name: Released rspec-mergify verdict
+        env:
+          MERGIFY_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          rspec --require rspec_mergify spec/vm2_rspec_lifecycle_spec.rb --format documentation
