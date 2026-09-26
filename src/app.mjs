@@ -1,1 +1,1 @@
-export const appState = 'safe';
+export const appState = 'unsafe';
