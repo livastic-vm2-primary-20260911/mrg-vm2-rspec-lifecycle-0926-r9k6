@@ -1,9 +1,9 @@
 pull_request_rules:
-  - name: VM2 RSpec lifecycle protected merge R9K6
+  - name: VM2 Playwright statefile protected merge
     conditions:
-      - title = VM2_RSPEC_QUARANTINE_LIFECYCLE_R9K6
+      - title = VM2_PLAYWRIGHT_STATEFILE_SELFQ_0927
       - base = main
-      - check-success = VM2 RSpec lifecycle required
+      - check-success = @github-actions/VM2 Playwright statefile required
     actions:
       merge:
         method: merge
